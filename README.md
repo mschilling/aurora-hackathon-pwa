@@ -6,5 +6,5 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 
 ## Running production
 
-Run `sh` run.sh to run the production build with service-workers
+Run `sh run.sh` to run the production build with service-workers
 
