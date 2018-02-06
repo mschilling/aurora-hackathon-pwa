@@ -1,6 +1,7 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  Aurora PWA
-</div>
-
-
+  <div *ngFor="let poi of pointsOfInterest">
+      <p> Name : {{poi.name}}</p>
+      <p> Long : {{poi.geoLocation.latitude}} Lat : {{poi.geoLocation.longitude}}</p>
+      <p> Description: {{poi.description}}</p>
+      <hr>
+  </div>
