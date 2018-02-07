@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { AgmCoreModule } from '@agm/core';
 
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { AppComponent } from './app.component';
@@ -19,6 +19,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './core/auth-guard.service';
 import { MatButtonModule } from '@angular/material';
+import { GoogleMapComponent } from './google-map/google-map.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -33,7 +34,8 @@ const routes: Routes = [
     AppComponent,
     HomeComponent,
     ProfileComponent,
-    LoginComponent
+    LoginComponent,
+    GoogleMapComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +46,10 @@ const routes: Routes = [
     AngularFireModule.initializeApp(environment.firebase, 'aurora-pwa'),
     AngularFirestoreModule,
     CoreModule,
-    MatButtonModule
+    MatButtonModule,
+    AgmCoreModule.forRoot({
+      apiKey: environment.googleMapsKey
+    })
   ],
   providers: [AuthGuard, AngularFireAuth],
   bootstrap: [AppComponent]
