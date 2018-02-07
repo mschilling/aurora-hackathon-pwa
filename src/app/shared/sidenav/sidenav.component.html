@@ -1,0 +1,5 @@
+<mat-nav-list>
+  <mat-list-item *ngFor='let route of navigationRoutes' (click)="navigate(route.url)">
+    <a>{{route.name}}</a>
+  </mat-list-item>
+</mat-nav-list>

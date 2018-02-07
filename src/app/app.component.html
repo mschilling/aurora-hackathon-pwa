@@ -1,7 +1,5 @@
-<!--The content below is only a placeholder and can be replaced.-->
-  <div *ngFor="let poi of pointsOfInterest">
-      <p> Name : {{poi.name}}</p>
-      <p> Long : {{poi.geoLocation.latitude}} Lat : {{poi.geoLocation.longitude}}</p>
-      <p> Description: {{poi.description}}</p>
-      <hr>
-  </div>
+<div class="content">
+  <app-wrapper>
+    <router-outlet></router-outlet>
+  </app-wrapper>
+</div>
