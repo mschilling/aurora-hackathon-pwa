@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
+import { MatSidenav } from '@angular/material'; 
+
 
 interface NavigationRoutes {
   name: string;
@@ -13,9 +15,9 @@ interface NavigationRoutes {
 })
 export class SidenavComponent implements OnInit {
 
-  public navigationRoutes: Array <NavigationRoutes>;
+  public navigationRoutes: Array<NavigationRoutes>;
 
-  constructor(public router: Router) {
+  constructor(public router: Router, public sidemenu: MatSidenav) {
     this.navigationRoutes = [
       {
         name: 'Home',
@@ -26,9 +28,13 @@ export class SidenavComponent implements OnInit {
         url: 'profile'
       }
     ]
-   }
-
-  ngOnInit() {
   }
 
+  navigate(rout) {
+    this.sidemenu.toggle();
+    this.router.navigateByUrl(rout);
+  }
+  ngOnInit() {
+  }
+  
 }
