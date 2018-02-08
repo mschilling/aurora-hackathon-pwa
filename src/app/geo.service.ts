@@ -9,7 +9,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 export class GeoService {
 
   dbRef: any;
-  geoFire: any;e
+  geoFire: any;
 
   hits = new BehaviorSubject([]);
 

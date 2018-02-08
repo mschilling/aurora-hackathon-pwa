@@ -19,7 +19,6 @@ export class GoogleMapComponent implements OnInit {
      /// locate the user
      if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(position => {
-          console.log(position);
          this.lat = position.coords.latitude;
          this.lng = position.coords.longitude;
 

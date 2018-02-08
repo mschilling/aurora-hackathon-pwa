@@ -1,6 +1,6 @@
 <div *ngIf="lat && lng">
   <agm-map [zoom]="15" [minZoom]="15" [zoomControl]="false" [latitude]="lat" [longitude]="lng">
-    <agm-marker [latitude]="lat" [longitude]="lng">
+    <agm-marker style="z-index: 100;"[latitude]="lat" [longitude]="lng" [iconUrl]="'./assets/icons/location.svg'">
       <agm-info-window>
         <h3><strong></strong></h3>
         <p>You are here!</p>
