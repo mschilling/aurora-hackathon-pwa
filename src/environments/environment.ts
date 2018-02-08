@@ -12,5 +12,6 @@ export const environment = {
     projectId: "aurora-hackathon",
     storageBucket: "aurora-hackathon.appspot.com",
     messagingSenderId: "772003583940"
-  }
+  },
+  googleMapsKey: 'AIzaSyCFSOHdvKgZ0ucChwOTgFddYmztbIEKhCM'
 };

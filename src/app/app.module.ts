@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { AgmCoreModule } from '@agm/core';
 
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { AppComponent } from './app.component';
@@ -11,6 +11,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 
 import {CoreModule} from './core/core.module';
 import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabase, AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { HomeComponent } from './home/home.component';
 import { SharedModule } from './shared/shared.module';
@@ -19,6 +20,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './core/auth-guard.service';
 import { MatButtonModule } from '@angular/material';
+import { GoogleMapComponent } from './google-map/google-map.component';
+import { GeoService } from './geo.service';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -33,7 +36,8 @@ const routes: Routes = [
     AppComponent,
     HomeComponent,
     ProfileComponent,
-    LoginComponent
+    LoginComponent,
+    GoogleMapComponent
   ],
   imports: [
     BrowserModule,
@@ -43,10 +47,14 @@ const routes: Routes = [
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     AngularFireModule.initializeApp(environment.firebase, 'aurora-pwa'),
     AngularFirestoreModule,
+    AngularFireDatabaseModule,
     CoreModule,
-    MatButtonModule
+    MatButtonModule,
+    AgmCoreModule.forRoot({
+      apiKey: environment.googleMapsKey
+    })
   ],
-  providers: [AuthGuard, AngularFireAuth],
+  providers: [AuthGuard, AngularFireAuth, GeoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
