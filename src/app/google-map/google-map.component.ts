@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { GeoService } from '../geo.service';
 @Component({
   selector: 'google-map',
   templateUrl: './google-map.component.html',
@@ -8,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 export class GoogleMapComponent implements OnInit {
     lat: number;
     lng: number;
-    constructor() { }
+    markers: any;
+    constructor(private geo: GeoService) { }
     ngOnInit() {
+      // this.geo.seedDatabase();
       this.getUserLocation()
+      this.geo.hits.subscribe(hits => this.markers = hits);
     }
     private getUserLocation() {
      /// locate the user
@@ -19,6 +22,8 @@ export class GoogleMapComponent implements OnInit {
           console.log(position);
          this.lat = position.coords.latitude;
          this.lng = position.coords.longitude;
+
+         this.geo.getLocations(500, [this.lat, this.lng])
        });
      }
    }
