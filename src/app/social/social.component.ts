@@ -11,8 +11,8 @@ export class SocialComponent implements OnInit {
 
   users: any;
 
-  constructor(db: AngularFireDatabase) {
-    db.list('/users').valueChanges().subscribe(data => {
+  constructor(db: AngularFirestore) {
+    db.collection('/users').valueChanges().subscribe(data => {
       this.users = data;
       console.log(this.users);
     })
