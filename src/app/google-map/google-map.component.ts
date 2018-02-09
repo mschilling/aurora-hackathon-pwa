@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GeoService } from '../geo.service';
+import { setInterval } from 'timers';
 @Component({
   selector: 'google-map',
   templateUrl: './google-map.component.html',
@@ -14,8 +15,14 @@ export class GoogleMapComponent implements OnInit {
   constructor(private geo: GeoService) { }
   ngOnInit() {
     // this.geo.seedDatabase();
-    this.getUserLocation()
+    this.getUserLocation();
+
+    setInterval(() => {
+      this.getUserLocation();
+      }, 3000 );
+
     this.geo.hits.subscribe(hits => this.markers = hits);
+    
   }
 
   private radiusChange() {
@@ -28,7 +35,6 @@ export class GoogleMapComponent implements OnInit {
         this.lat = position.coords.latitude;
         this.lng = position.coords.longitude;
         const radius = parseInt(this.selectedRadius) / 1000;
-        console.log(radius);
         this.geo.getLocations(radius, [this.lat, this.lng])
       });
     }
