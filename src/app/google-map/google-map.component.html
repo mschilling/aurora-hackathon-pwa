@@ -1,19 +1,31 @@
+<div *ngIf="!lat &&!lng" class="mapSpinner">
+  <mat-progress-spinner style="position:fixed;top:50%;left:50%" mode="indeterminate"></mat-progress-spinner>
+</div>
 <div *ngIf="lat && lng">
+  <div style="width: 200px; background: transparent;">
+      <mat-select placeholder="Choose a radius" (change)="radiusChange()" style="z-index: 300;" [(value)]="selectedRadius">
+        <mat-option value="100">100m</mat-option>
+        <mat-option value="500">500m</mat-option>
+        <mat-option value="1000">1000m</mat-option>
+      </mat-select>
+  </div>
   <agm-map [zoom]="15" [minZoom]="15" [zoomControl]="false" [latitude]="lat" [longitude]="lng">
-    <agm-marker style="z-index: 100;"[latitude]="lat" [longitude]="lng" [iconUrl]="'./assets/icons/location.svg'">
+    <agm-marker style="z-index: 100;" [latitude]="lat" [longitude]="lng" [iconUrl]="'./assets/icons/location.svg'">
       <agm-info-window>
-        <h3><strong></strong></h3>
+        <h3>
+          <strong></strong>
+        </h3>
         <p>You are here!</p>
       </agm-info-window>
     </agm-marker>
 
-    <agm-marker *ngFor="let marker of markers"
-      [latitude]="marker.location[0]"
-      [longitude]="marker.location[1]">
+    <agm-marker *ngFor="let marker of markers" [latitude]="marker.location[0]" [longitude]="marker.location[1]">
       <agm-info-window>
-        <h3><strong>Location Details</strong></h3>
+        <h3>
+          <strong>Location Details</strong>
+        </h3>
         <p>{{ marker.distance }} away from here</p>
       </agm-info-window>
     </agm-marker>
   </agm-map>
-<div>
+  <div>

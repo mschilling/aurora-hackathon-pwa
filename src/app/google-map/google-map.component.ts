@@ -6,24 +6,31 @@ import { GeoService } from '../geo.service';
   styleUrls: ['./google-map.component.scss']
 })
 export class GoogleMapComponent implements OnInit {
-    lat: number;
-    lng: number;
-    markers: any;
-    constructor(private geo: GeoService) { }
-    ngOnInit() {
-      // this.geo.seedDatabase();
-      this.getUserLocation()
-      this.geo.hits.subscribe(hits => this.markers = hits);
-    }
-    private getUserLocation() {
-     /// locate the user
-     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(position => {
-         this.lat = position.coords.latitude;
-         this.lng = position.coords.longitude;
+  lat: number;
+  lng: number;
+  markers: any;
+  selectedRadius: string = "100";
+  radius: number;
+  constructor(private geo: GeoService) { }
+  ngOnInit() {
+    // this.geo.seedDatabase();
+    this.getUserLocation()
+    this.geo.hits.subscribe(hits => this.markers = hits);
+  }
 
-         this.geo.getLocations(500, [this.lat, this.lng])
-       });
-     }
-   }
- }
+  private radiusChange() {
+    this.getUserLocation();
+  }
+  private getUserLocation() {
+    /// locate the user
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+        this.lat = position.coords.latitude;
+        this.lng = position.coords.longitude;
+        const radius = parseInt(this.selectedRadius) / 1000;
+        console.log(radius);
+        this.geo.getLocations(radius, [this.lat, this.lng])
+      });
+    }
+  }
+}
