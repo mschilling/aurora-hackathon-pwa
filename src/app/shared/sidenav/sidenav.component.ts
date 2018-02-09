@@ -26,6 +26,10 @@ export class SidenavComponent implements OnInit {
       {
         name: 'Profile',
         url: 'profile'
+      },
+      {
+        name: 'Social',
+        url: 'social'
       }
     ]
   }

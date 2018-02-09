@@ -24,78 +24,83 @@ export class AuthService {
     constructor(private afAuth: AngularFireAuth,
         private afs: AngularFirestore,
         private router: Router, private db: AngularFireDatabase) {
-            this.user = this.afAuth.authState
+        this.user = this.afAuth.authState
             .switchMap(user => {
-              if (user) {
-                return this.afs.doc<User>(`users/${user.uid}`).valueChanges();
-              } else {
-                return Observable.of(null);
-              }
-            });
-
-            this.afAuth.authState.do(user => {
-                if(user) {
-                    this.userId = user.uid;
-                    console.log(this.userId);
-                    this.updateOnConnect();
-                    this.updateOnDisconnect();
+                if (user) {
+                    return this.afs.doc<User>(`users/${user.uid}`).valueChanges();
+                } else {
+                    return Observable.of(null);
                 }
-            }).subscribe();
-        }
-        private updateStatus(status: string) {
-            if (!this.userId) return
-            var userDoc = this.afs.doc<any>(`users/${this.userId}`);
-            var realTimeUserRef = this.db.object(`users/${this.userId}`);
-            const data = {
-                status: status
-            }
-            console.log('updating after connect');
-            userDoc.update(data);
-            realTimeUserRef.update(data);
-        }
-        private updateOnConnect() {
-            this.db.object('.info/connected').valueChanges().subscribe(data => {
-                let status = data ? 'online' : 'offline'
-                this.updateStatus(status);
             });
-        }
 
-        private updateOnDisconnect() {
-            const data = {
-                status: 'offline'
+        this.afAuth.authState.do(user => {
+            if (user) {
+                this.userId = user.uid;
+                console.log(this.userId);
+                this.updateOnConnect();
+                this.updateOnDisconnect();
             }
-            this.db.database.ref(`users/${this.userId}`).onDisconnect().update(data);
+        }).subscribe();
+    }
+    private updateStatus(status: string) {
+        if (!this.userId) return
+        var userDoc = this.afs.doc<any>(`users/${this.userId}`);
+        var realTimeUserRef = this.db.object(`users/${this.userId}`);
+        const data = {
+            status: status
         }
-        googleLogin() {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            return this.oAuthLogin(provider);
-        }
+        console.log('updating after connect');
+        userDoc.update(data);
+        realTimeUserRef.update(data);
+    }
+    private updateOnConnect() {
+        this.db.object('.info/connected').valueChanges().subscribe(data => {
+            let status = data ? 'online' : 'offline'
+            this.updateStatus(status);
+        });
+    }
 
-        private oAuthLogin(provider) {
-            return this.afAuth.auth.signInWithPopup(provider)
+    private updateOnDisconnect() {
+        const data = {
+            status: 'offline'
+        }
+        this.db.database.ref(`users/${this.userId}`).onDisconnect().update(data);
+    }
+
+
+    googleLogin() {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        return this.oAuthLogin(provider);
+    }
+
+    private oAuthLogin(provider) {
+        return this.afAuth.auth.signInWithPopup(provider)
             .then((credentials) => {
                 this.updateUserData(credentials.user);
                 this.router.navigate(['/home']);
             });
-        }
+    }
 
-        private updateUserData(user) {
-            const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
-            const realtimeUserRef = this.db.object(`users/${user.uid}`);
-                const realtimeData = {
-                    status: 'offline'
-                }
-                const data: User = {
-                  uid: user.uid,
-                  email: user.email,
-                  displayName: user.displayName,
-                  photoURL: user.photoURL
-                };
-                return userRef.set(data), realtimeUserRef.set(realtimeData);
+    private updateUserData(user) {
+        const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
+        const realtimeUserRef = this.db.object(`users/${user.uid}`);
+        const realtimeData = {
+            status: 'offline',
+            uid: user.uid,
+            email: user.email,
+            displayName: user.displayName,
+            photoURL: user.photoURL
         }
-
-        public logout() {
-            this.afAuth.auth.signOut();
-            this.router.navigate(['']);
-        }
+        const data: User = {
+            uid: user.uid,
+            email: user.email,
+            displayName: user.displayName,
+            photoURL: user.photoURL
+        };
+        return userRef.set(data), realtimeUserRef.set(realtimeData);
+    }
+    public logout() {
+        this.afAuth.auth.signOut();
+        this.router.navigate(['']);
+    }
 }

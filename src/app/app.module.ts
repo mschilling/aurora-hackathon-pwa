@@ -19,14 +19,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProfileComponent } from './profile/profile.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './core/auth-guard.service';
-import { MatButtonModule } from '@angular/material';
+import { MatButtonModule, MatCardModule, MatProgressSpinnerModule, MatSelectModule, MatFormFieldModule } from '@angular/material';
 import { GoogleMapComponent } from './google-map/google-map.component';
 import { GeoService } from './geo.service';
+import { SocialComponent } from './social/social.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuard]},
+  {path: 'social', component: SocialComponent, canActivate: [AuthGuard]},
   {path: 'login', component: LoginComponent}
 
 ]
@@ -37,7 +39,8 @@ const routes: Routes = [
     HomeComponent,
     ProfileComponent,
     LoginComponent,
-    GoogleMapComponent
+    GoogleMapComponent,
+    SocialComponent
   ],
   imports: [
     BrowserModule,
@@ -48,8 +51,12 @@ const routes: Routes = [
     AngularFireModule.initializeApp(environment.firebase, 'aurora-pwa'),
     AngularFirestoreModule,
     AngularFireDatabaseModule,
+    MatFormFieldModule,
     CoreModule,
     MatButtonModule,
+    MatCardModule,
+    MatSelectModule,
+    MatProgressSpinnerModule,
     AgmCoreModule.forRoot({
       apiKey: environment.googleMapsKey
     })
