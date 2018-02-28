@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GeoService } from '../geo.service';
-import { setInterval } from 'timers';
+// import { setInterval } from 'timers';
+
 @Component({
   selector: 'google-map',
   templateUrl: './google-map.component.html',
@@ -22,7 +23,7 @@ export class GoogleMapComponent implements OnInit {
       }, 3000 );
 
     this.geo.hits.subscribe(hits => this.markers = hits);
-    
+
   }
 
   private radiusChange() {
