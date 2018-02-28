@@ -14,3 +14,5 @@ Run `sh run.sh` to run the production build with service-workers
 ## Deploy to Firebase
 
 Run `firebase deploy --only hosting` to deploy the build to Firebase Hosting
+
+Note: 28-feb, enabled Greenkeeper
